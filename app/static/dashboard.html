@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital Portal | Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="dashboard-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand-lockup sidebar-brand" href="/dashboard"><span class="brand-symbol">+</span><span>Hospital Portal</span></a>
+      <p class="nav-caption">WORKSPACE</p>
+      <a href="#overview" class="nav-link active">Overview</a>
+      <a href="#appointments" class="nav-link" data-roles="admin,doctor,staff,patient">Appointments</a>
+      <a href="#directory" class="nav-link" data-roles="admin,doctor,staff,patient">Doctor directory</a>
+      <a href="#clinical" class="nav-link" data-roles="admin,doctor,patient">Medical records</a>
+      <a href="#hospital-info" class="nav-link" data-roles="patient">Hospital facilities</a>
+      <a href="#team-management" class="nav-link" data-roles="admin">Team management</a>
+      <a href="#operations" class="nav-link" data-roles="admin,staff">Hospital operations</a>
+      <a href="#attendance" class="nav-link" data-roles="doctor,staff">Attendance</a>
+      <div class="sidebar-bottom">
+        <span class="signed-in" id="sidebar-email">Signed in</span>
+        <button id="logout" class="secondary-button full-width">Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">HOSPITAL WORKSPACE</p>
+          <h1 id="page-title">Overview</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="live-clock" aria-label="Current local time">
+            <span class="clock-dot"></span>
+            <span><strong id="live-time">--:--:--</strong><small id="live-date">Loading date</small></span>
+          </div>
+          <span class="role-pill" id="role-label">Account</span>
+          <span class="user-avatar" id="user-avatar">H</span>
+        </div>
+      </header>
+
+      <section class="welcome-panel" id="overview">
+        <div>
+          <p class="eyebrow" id="welcome-eyebrow">WELCOME BACK</p>
+          <h2 id="welcome-title">Your workspace</h2>
+          <p class="muted" id="welcome-copy">Your hospital information is ready.</p>
+          <div class="welcome-details">
+            <span id="profile-label">Hospital workspace</span>
+            <span id="login-time-label">Session started —</span>
+          </div>
+        </div>
+        <div class="welcome-mark">+</div>
+      </section>
+
+      <section class="stats-grid" data-roles="admin" id="admin-summary">
+        <article class="stat-card"><span>Total patients</span><strong id="patients-count">—</strong><small>Patient profiles</small></article>
+        <article class="stat-card"><span>Doctors</span><strong id="doctors-count">—</strong><small id="active-doctors-count">— available</small></article>
+        <article class="stat-card"><span>Appointments</span><strong id="appointments-count">—</strong><small>All schedules</small></article>
+        <article class="stat-card"><span>Available beds</span><strong id="beds-count">—</strong><small id="total-beds-count">— total beds</small><div class="mini-meter"><span id="bed-occupancy-meter"></span></div><small id="bed-occupancy-level">Occupancy level —</small></article>
+      </section>
+
+      <section class="stats-grid doctor-stats" data-roles="doctor" id="doctor-summary">
+        <article class="stat-card"><span>My appointments</span><strong id="doctor-appointments-count">0</strong><small>Assigned to your clinic</small></article>
+        <article class="stat-card"><span>Upcoming appointments</span><strong id="doctor-upcoming-count">0</strong><small>Scheduled from now</small></article>
+        <article class="stat-card"><span>Clinic status</span><strong id="doctor-availability-value">—</strong><small id="doctor-availability-note">Booking availability</small></article>
+      </section>
+
+      <section class="stats-grid patient-stats" data-roles="patient">
+        <article class="stat-card"><span>Available beds</span><strong id="public-beds-count">—</strong><small id="public-total-beds">Hospital capacity</small></article>
+        <article class="stat-card"><span>Available doctors</span><strong id="public-doctors-count">—</strong><small>Currently accepting appointments</small></article>
+      </section>
+
+      <section class="panel" id="directory" data-roles="admin,doctor,staff,patient">
+        <div class="section-heading"><div><p class="eyebrow">MEDICAL TEAM</p><h2>Doctor directory</h2></div><span class="section-tag">Availability</span></div>
+        <p class="muted">Check the doctor's specialty, consultation fee and current booking availability.</p>
+        <div id="doctor-list" class="data-list"><p class="muted">Loading doctors...</p></div>
+      </section>
+
+      <section class="panel" id="appointments" data-roles="admin,doctor,staff,patient">
+        <div class="section-heading"><div><p class="eyebrow">SCHEDULE</p><h2 id="appointment-heading">Appointments</h2></div></div>
+        <div id="appointment-list" class="data-list"><p class="muted">Loading appointments...</p></div>
+        <form id="book-form" class="form-grid" data-roles="patient,admin,staff">
+          <h3 class="form-title">Book an appointment</h3>
+          <div data-roles="admin,staff">
+            <label for="book-patient">Patient ID</label><input id="book-patient" type="number" min="1" placeholder="Patient ID">
+          </div>
+          <div>
+            <label for="book-doctor">Available doctor</label><select id="book-doctor" required><option value="">Choose a doctor</option></select>
+          </div>
+          <div>
+            <label for="book-time">Date and time</label><input id="book-time" type="datetime-local" required>
+          </div>
+          <button class="primary-button" type="submit">Confirm appointment</button>
+          <p id="book-message" class="message form-message"></p>
+        </form>
+      </section>
+
+      <section class="panel" id="hospital-info" data-roles="patient">
+        <div class="section-heading"><div><p class="eyebrow">HOSPITAL INFORMATION</p><h2>Facilities and services</h2></div></div>
+        <p class="muted">Only services marked available by hospital administration are shown here.</p>
+        <div id="facility-list" class="facility-grid"><p class="muted">Loading facilities...</p></div>
+        <div class="bed-request-box">
+          <div><h3>Need an admission bed?</h3><p class="muted">You can send a request. Hospital staff will confirm availability and assign a bed.</p></div>
+          <form id="bed-request-form">
+            <label for="bed-reason">Reason / notes</label>
+            <input id="bed-reason" placeholder="Briefly describe your request">
+            <button class="primary-button" type="submit">Request a bed</button>
+            <p class="message" id="bed-request-message"></p>
+          </form>
+        </div>
+        <h3 class="subheading">My bed requests</h3>
+        <div id="my-bed-requests" class="data-list"></div>
+      </section>
+
+      <section class="panel" id="clinical" data-roles="admin,doctor,patient">
+        <div class="section-heading"><div><p class="eyebrow">CARE HISTORY</p><h2>Medical records and prescriptions</h2></div></div>
+        <div id="record-list" class="data-list"><p class="muted">Loading records...</p></div>
+        <form id="record-form" class="form-grid" data-roles="doctor,admin">
+          <h3 class="form-title">Add treatment and prescription</h3>
+          <div><label for="record-patient">Patient ID</label><input id="record-patient" type="number" min="1" placeholder="Patient ID" required></div>
+          <div><label for="record-appointment">Appointment ID</label><input id="record-appointment" type="number" min="1" placeholder="Appointment ID" required></div>
+          <div><label for="record-diagnosis">Diagnosis</label><input id="record-diagnosis" placeholder="Diagnosis" required></div>
+          <div class="wide-field"><label for="record-treatment">Treatment plan</label><textarea id="record-treatment" rows="2" placeholder="Treatment and follow-up instructions" required></textarea></div>
+          <div class="wide-field"><label for="record-medicines">Medicines / prescription</label><textarea id="record-medicines" rows="2" placeholder="Medicine, dose and instructions"></textarea></div>
+          <div class="wide-field"><label for="record-notes">Additional notes</label><textarea id="record-notes" rows="2" placeholder="Optional notes"></textarea></div>
+          <button class="primary-button" type="submit">Save patient record</button>
+          <p class="message form-message" id="record-message"></p>
+        </form>
+      </section>
+
+      <section class="panel" id="team-management" data-roles="admin">
+        <div class="section-heading"><div><p class="eyebrow">ADMINISTRATION</p><h2>Manage hospital accounts</h2></div></div>
+        <p class="muted">Create the hospital record first. Doctors and staff can activate their own account only with the matching Gmail address, name and employee code.</p>
+        <div class="management-grid">
+          <form id="doctor-form" class="form-card">
+            <h3>Add a doctor</h3>
+            <label>Full name</label><input id="new-doctor-name" placeholder="Doctor full name" required>
+            <label>Gmail address</label><input id="new-doctor-email" type="email" placeholder="doctor@gmail.com" required>
+            <label>Employee ID</label><input id="new-doctor-code" placeholder="DOC-1001" required>
+            <label>Specialization</label><input id="new-doctor-specialty" placeholder="Cardiology, General Medicine..." required>
+            <label>Phone</label><input id="new-doctor-phone" placeholder="Phone number">
+            <label>Consultation fee (INR)</label><input id="new-doctor-fee" type="number" min="0" value="500" required>
+            <button class="primary-button" type="submit">Create doctor profile</button><p class="message" id="doctor-message"></p>
+          </form>
+          <form id="staff-form" class="form-card">
+            <h3>Add hospital staff</h3>
+            <label>Full name</label><input id="new-staff-name" placeholder="Staff full name" required>
+            <label>Gmail address</label><input id="new-staff-email" type="email" placeholder="staff@gmail.com" required>
+            <label>Employee ID</label><input id="new-staff-code" placeholder="STF-2001" required>
+            <label>Job title</label><input id="new-staff-title" placeholder="Receptionist, Nurse..." required>
+            <label>Phone</label><input id="new-staff-phone" placeholder="Phone number">
+            <button class="primary-button" type="submit">Create staff profile</button><p class="message" id="staff-message"></p>
+          </form>
+          <form id="patient-form" class="form-card">
+            <h3>Add a patient</h3>
+            <label>Full name</label><input id="new-patient-name" placeholder="Patient full name" required>
+            <label>Gmail address</label><input id="new-patient-email" type="email" placeholder="patient@gmail.com" required>
+            <label>Patient registration code</label><input id="new-patient-code" placeholder="PAT-3001" required>
+            <label>Age</label><input id="new-patient-age" type="number" min="0" max="120" required>
+            <label>Phone</label><input id="new-patient-phone" placeholder="Phone number">
+            <label>Address</label><input id="new-patient-address" placeholder="Address">
+            <button class="primary-button" type="submit">Create patient record</button><p class="message" id="patient-message"></p>
+          </form>
+          <form id="facility-form" class="form-card">
+            <h3>Add hospital facility</h3>
+            <label>Facility name</label><input id="facility-name" placeholder="CT Scan, MRI, Pharmacy..." required>
+            <label>Description</label><textarea id="facility-description" rows="2" placeholder="Short service description"></textarea>
+            <label class="check-label"><input id="facility-available" type="checkbox"> Available to patients</label>
+            <button class="primary-button" type="submit">Save facility</button><p class="message" id="facility-message"></p>
+          </form>
+          <form id="bed-form" class="form-card">
+            <h3>Add a hospital bed</h3>
+            <label>Bed number</label><input id="bed-number" placeholder="GEN-01" required>
+            <label>Ward</label><input id="bed-ward" placeholder="General, ICU..." required>
+            <button class="primary-button" type="submit">Add bed</button><p class="message" id="bed-message"></p>
+          </form>
+        </div>
+        <div class="management-tables">
+          <div><h3>Doctor accounts</h3><div id="admin-doctor-list" class="data-list"></div></div>
+          <div><h3>Staff accounts</h3><div id="admin-staff-list" class="data-list"></div></div>
+          <div><h3>Patient register</h3><div id="admin-patient-list" class="data-list"></div></div>
+          <div><h3>Hospital facilities</h3><div id="admin-facility-list" class="data-list"></div></div>
+        </div>
+      </section>
+
+      <section class="panel" id="operations" data-roles="admin,staff">
+        <div class="section-heading"><div><p class="eyebrow">HOSPITAL OPERATIONS</p><h2>Admissions, beds and billing</h2></div></div>
+        <div class="management-tables">
+          <div><h3>Bed inventory</h3><div id="managed-bed-list" class="data-list"></div></div>
+          <div><h3>Bed requests</h3><div id="bed-request-list" class="data-list"></div></div>
+          <div><h3>Active admissions</h3><div id="admission-list" class="data-list"></div></div>
+          <div><h3>Billing register</h3><div id="bill-list" class="data-list"></div></div>
+          <div><h3>Create a bill</h3>
+            <form id="bill-form" class="form-card">
+              <label>Patient ID</label><input id="bill-patient" type="number" min="1" required>
+              <label>Description</label><input id="bill-description" placeholder="Consultation, tests..." required>
+              <label>Amount (INR)</label><input id="bill-amount" type="number" min="1" step="0.01" required>
+              <button class="primary-button" type="submit">Create bill</button><p class="message" id="bill-message"></p>
+            </form>
+          </div>
+          <div><h3>Attendance overview</h3><div id="attendance-report" class="data-list"></div></div>
+        </div>
+      </section>
+
+      <section class="panel" id="doctor-workspace" data-roles="doctor">
+        <div class="section-heading"><div><p class="eyebrow">MY CLINIC</p><h2>Doctor availability</h2></div></div>
+        <p class="muted">When you mark yourself unavailable, patients cannot book new appointments with you.</p>
+        <button class="primary-button" id="availability-button" type="button">Update availability</button>
+        <p class="message" id="availability-message"></p>
+      </section>
+
+      <section class="panel" id="attendance" data-roles="doctor,staff">
+        <div class="section-heading"><div><p class="eyebrow">DAILY WORK</p><h2>My attendance</h2></div></div>
+        <p class="muted">Mark your own attendance once per day.</p>
+        <button class="primary-button" id="attendance-button" type="button">Mark me present today</button>
+        <p class="message" id="attendance-message"></p>
+      </section>
+
+      <section class="panel" id="patient-bills" data-roles="patient">
+        <div class="section-heading"><div><p class="eyebrow">PAYMENTS</p><h2>My bills</h2></div></div>
+        <div id="patient-bill-list" class="data-list"></div>
+      </section>
+
+      <footer class="footer-note">Hospital Portal</footer>
+    </main>
+  </div>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

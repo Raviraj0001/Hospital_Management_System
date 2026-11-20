@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital Portal | Sign in</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="login-page">
+  <main class="login-layout">
+    <section class="login-intro">
+      <div class="brand-lockup"><span class="brand-symbol">+</span><span>Hospital Portal</span></div>
+      <p class="eyebrow light">HOSPITAL MANAGEMENT SYSTEM</p>
+      <h1>Care coordination, made clear.</h1>
+      <p class="intro-copy">A secure workspace for hospital teams and a simple access point for patients.</p>
+      <div class="intro-points">
+        <span>Secure role-based access</span>
+        <span>Appointments and availability</span>
+        <span>Patient information in one place</span>
+      </div>
+    </section>
+
+    <section class="login-card">
+      <p class="eyebrow">WELCOME</p>
+      <h2 id="login-heading">Choose your workspace</h2>
+      <p class="muted" id="login-subheading">Select your hospital role to continue.</p>
+
+      <div class="role-options" id="role-options">
+        <button class="role-option selected" type="button" data-role="admin">
+          <span class="role-icon">A</span><span><strong>Hospital Admin</strong><small>Manage the hospital portal</small></span>
+        </button>
+        <button class="role-option" type="button" data-role="doctor">
+          <span class="role-icon">D</span><span><strong>Doctor</strong><small>Appointments and treatment</small></span>
+        </button>
+        <button class="role-option" type="button" data-role="staff">
+          <span class="role-icon">S</span><span><strong>Hospital Staff</strong><small>Daily hospital operations</small></span>
+        </button>
+      </div>
+
+      <form id="login-form">
+        <label for="email">Gmail address</label>
+        <input id="email" type="email" placeholder="name@gmail.com" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+        <button class="primary-button full-width" type="submit">Sign in</button>
+        <p class="message" id="message" aria-live="polite"></p>
+      </form>
+
+      <div class="patient-access">
+        <span id="access-caption">Are you a patient?</span>
+        <button type="button" class="text-button" id="patient-access">Patient sign in / register</button>
+      </div>
+      <div class="employee-activate">
+        <button type="button" class="text-button" id="show-register">Activate an invited employee account</button>
+      </div>
+
+      <div class="register-area hidden" id="register-area">
+        <div class="separator"><span id="register-title">Activate your hospital account</span></div>
+        <p class="hint" id="register-hint">Your hospital administrator must create your employee profile first. Use the exact Gmail address and employee code provided.</p>
+        <form id="register-form">
+          <label for="reg-name">Full name</label>
+          <input id="reg-name" placeholder="Enter your full name" required>
+          <label for="reg-email">Gmail address</label>
+          <input id="reg-email" type="email" placeholder="name@gmail.com" required>
+          <div id="employee-fields">
+            <label for="employee-code">Employee ID / code</label>
+            <input id="employee-code" placeholder="Provided by hospital admin">
+          </div>
+          <div id="patient-fields" class="hidden">
+            <label for="reg-age">Age</label>
+            <input id="reg-age" type="number" min="0" max="120" placeholder="Your age">
+            <label for="patient-code">Patient registration code (if provided by hospital)</label>
+            <input id="patient-code" placeholder="Optional unless admin created your profile">
+          </div>
+          <label for="reg-password">Create password</label>
+          <input id="reg-password" type="password" minlength="8" placeholder="At least 8 characters" required>
+          <button class="primary-button full-width" type="submit">Create account</button>
+          <p class="message" id="reg-message" aria-live="polite"></p>
+        </form>
+        <button class="text-button" type="button" id="hide-register">Back to sign in</button>
+      </div>
+
+      <p class="login-footnote">Hospital team access and patient services.</p>
+    </section>
+  </main>
+  <script src="/static/js/login.js"></script>
+</body>
+</html>
